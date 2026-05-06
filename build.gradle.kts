@@ -123,11 +123,10 @@ rootProject.extensions.configure<WasmYarnRootEnvSpec>("kotlinWasmYarnSpec") {
 
 rootProject.extensions.configure<YarnRootExtension>("kotlinYarn") {
     resolution("diff", "8.0.3")
-    resolution("serialize-javascript", "7.0.5")
-    resolution("webpack", "5.106.2")
-
     resolution("**/diff", "8.0.3")
+    resolution("serialize-javascript", "7.0.5")
     resolution("**/serialize-javascript", "7.0.5")
+    resolution("webpack", "5.106.2")
     resolution("**/webpack", "5.106.2")
     resolution("follow-redirects", "1.16.0")
     resolution("**/follow-redirects", "1.16.0")
@@ -169,14 +168,14 @@ mavenPublishing {
 
     pom {
         name.set("icu-provider-kotlin")
-        description.set("Kotlin Multiplatform port of the Rust crate `icu_provider` — Pluggable data provider for ICU4X")
+        description.set("Kotlin Multiplatform port of unicode-org/icu4x - Trait and struct definitions for the ICU data provider")
         inceptionYear.set("2026")
         url.set("https://github.com/KotlinMania/icu-provider-kotlin")
 
         licenses {
             license {
-                name.set("Apache-2.0")
-                url.set("https://opensource.org/licenses/Apache-2.0")
+                name.set("Unicode-3.0")
+                url.set("https://spdx.org/licenses/Unicode-3.0.html")
                 distribution.set("repo")
             }
         }
@@ -196,4 +195,18 @@ mavenPublishing {
             developerConnection.set("scm:git:ssh://github.com/KotlinMania/icu-provider-kotlin.git")
         }
     }
+}
+
+tasks.register("test") {
+    group = "verification"
+    description =
+        "Runs a portable test suite (macOS + JS + WasmJS). Android and non-host native targets are intentionally excluded."
+
+    val defaultTestTasks = listOf(
+        "macosArm64Test",
+        "jsNodeTest",
+        "wasmJsNodeTest",
+    )
+
+    dependsOn(defaultTestTasks.mapNotNull { taskName -> tasks.findByName(taskName) })
 }
