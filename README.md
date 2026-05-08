@@ -125,7 +125,7 @@ The contents of this repository are governed by the Unicode [Terms of Use](https
 
 ```kotlin
 dependencies {
-    implementation("io.github.kotlinmania:icu-provider-kotlin:0.1.0-SNAPSHOT")
+    implementation("io.github.kotlinmania:icu-provider-kotlin:0.1.0")
 }
 ```
 
