@@ -1,7 +1,13 @@
 name: CI
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - "release/**"
+  pull_request:
+    branches:
+      - main
 
 # Least-privilege default for any inline job in this file. The reusable
 # workflows invoked below declare their own permissions; this top-level
@@ -19,10 +25,10 @@ permissions:
 # CodeQL workflows live in .github/workflows/codeql.yml and are NOT invoked
 # from here — they have their own trigger and run independently.
 #
-# Branch trigger is `main` only. The previous shape `[main, master]` would
-# fire CI on any branch literally named `master`, which is a workflow-content
-# trust escalation since GitHub Actions runs the workflow file from the
-# branch being pushed to.
+# Branch triggers are scoped to `main` and release branches only. The previous
+# shape `[main, master]` would fire CI on any branch literally named `master`,
+# which is a workflow-content trust escalation since GitHub Actions runs the
+# workflow file from the branch being pushed to.
 
 # Each `uses:` job below declares its own `permissions:` block. For a job
 # that calls a reusable workflow, the permissions value sets a CEILING on
@@ -30,6 +36,31 @@ permissions:
 # called workflow's own `contents: read` declaration and break checkout.
 # `contents: read` matches what each called workflow needs.
 jobs:
+  strict-build:
+    name: Build every configured target
+    runs-on: macos-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5.2.0
+        with:
+          distribution: zulu
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6.1.0
+
+      - name: Build every configured target
+        run: >
+          ./gradlew
+          setupAndroidSdk
+          build
+          --no-configuration-cache
+
   setupAndroidSdk:
     name: setupAndroidSdk
     runs-on: ubuntu-latest
