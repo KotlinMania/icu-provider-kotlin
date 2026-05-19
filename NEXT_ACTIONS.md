@@ -4,14 +4,14 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 2/18 (11.1%)
-- **Function parity:** 14/218 matched (target 33) — 6.4%
-- **Class/type parity:** 4/79 matched (target 7) — 5.1%
-- **Combined symbol parity:** 18/297 matched (target 40) — 6.1%
-- **Average inline-code cosine:** 0.14 (function body across 2 matched files)
-- **Average documentation cosine:** 0.54 (doc text across 2 matched files)
+- **Files Present:** 6/18 (33.3%)
+- **Function parity:** 48/180 matched (target 91) — 26.7%
+- **Class/type parity:** 30/79 matched (target 45) — 38.0%
+- **Combined symbol parity:** 78/259 matched (target 136) — 30.1%
+- **Average inline-code cosine:** 0.27 (function body across 6 matched files)
+- **Average documentation cosine:** 0.75 (doc text across 6 matched files)
 - **Cheat-zeroed Files:** 0
-- **Critical Issues:** 2 files with <0.60 function similarity
+- **Critical Issues:** 6 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -27,29 +27,75 @@ No missing high-value files detected.
 
 Every matched file is listed below with function and type symbol parity.
 
-### 1. request
+### 1. response
 
-- **Target:** `icuprovider.Request`
-- **Similarity:** 0.06
+- **Target:** `icuprovider.Response`
+- **Similarity:** 0.04
 - **Dependents:** 0
-- **Priority Score:** 273409.3
-- **Functions:** 5/26 matched (target 12)
-- **Missing functions:** `fmt`, `for_locale`, `for_marker_attributes`, `for_marker_attributes_and_locale`, `into_owned`, `as_cow`, `partial_cmp`, `cmp`, `as_borrowed`, `from_locale`, `from_marker_attributes`, `from_marker_attributes_owned`, `from_owned`, `from_borrowed_and_owned`, `is_unknown`, `default`, `deref`, `try_from_str`, `from_str_or_panic`, `as_str`, `to_owned`
-- **Types:** 2/8 matched (target 3)
-- **Missing types:** `DataRequest`, `DataRequestMetadata`, `DataIdentifierBorrowed`, `DataIdentifierCow`, `Target`, `Owned`
-- **Tests:** 1/1 matched
+- **Priority Score:** 344209.6
+- **Functions:** 3/32 matched (target 4)
+- **Missing functions:** `deref`, `unwrap_cart`, `fmt`, `clone`, `eq`, `test_clone_eq`, `from_owned`, `from_static_ref`, `with_mut`, `get_static`, `map_project`, `map_project_cloned`, `try_map_project`, `try_map_project_cloned`, `cast`, `cast_ref`, `dynamic_cast`, `dynamic_cast_mut`, `from_owned_buffer`, `from_yoked_buffer`, `from_static_buffer`, `default`, `from_payload`, `from_other`, `is_payload`, `into_inner`, `none`, `get_option`, `test_debug`
+- **Types:** 5/10 matched (target 8)
+- **Missing types:** `DataPayloadInner`, `DataPayloadOrInner`, `DataPayloadOrInnerInner`, `CartInner`, `Target`
+- **Tests:** 0/2 matched
 
-### 2. marker
+### 2. data_provider
+
+- **Target:** `icuprovider.DataProvider`
+- **Similarity:** 0.03
+- **Dependents:** 0
+- **Priority Score:** 213109.7
+- **Functions:** 2/19 matched (target 2)
+- **Missing functions:** `load`, `dry_load`, `load_data`, `dry_load_data`, `iter_ids_for_marker`, `new`, `from`, `get_warehouse`, `get_payload_v1`, `get_payload_alt`, `test_warehouse_owned`, `test_warehouse_owned_dyn_generic`, `test_provider2`, `test_provider2_dyn_generic`, `test_provider2_dyn_generic_alt`, `check_v1_v2`, `test_v1_v2_generic`
+- **Types:** 8/12 matched (target 8)
+- **Missing types:** `HelloAlt`, `HelloCombined`, `DataWarehouse`, `DataProvider2`
+- **Tests:** 0/11 matched
+
+### 3. marker
 
 - **Target:** `icuprovider.Marker`
-- **Similarity:** 0.21
+- **Similarity:** 0.46
 - **Dependents:** 0
-- **Priority Score:** 243507.9
-- **Functions:** 9/21 matched
-- **Missing functions:** `bind`, `make_locale`, `to_unaligned`, `from_unaligned`, `eq`, `cmp`, `partial_cmp`, `hash`, `name`, `from_id`, `match_marker`, `fmt`
-- **Types:** 2/14 matched (target 4)
-- **Missing types:** `DynamicDataMarker`, `DataMarker`, `DataMarkerExt`, `NeverMarker`, `DataStruct`, `Container`, `Slice`, `GetType`, `OwnedType`, `ULE`, `DataMarkerInfo`, `ErasedMarker`
+- **Priority Score:** 133505.4
+- **Functions:** 15/21 matched (target 32)
+- **Missing functions:** `bind`, `eq`, `cmp`, `partial_cmp`, `hash`, `fmt`
+- **Types:** 7/14 matched (target 9)
+- **Missing types:** `DataMarkerExt`, `DataStruct`, `Container`, `Slice`, `GetType`, `OwnedType`, `ULE`
 - **Tests:** 4/4 matched
+
+### 4. request
+
+- **Target:** `icuprovider.Request`
+- **Similarity:** 0.40
+- **Dependents:** 0
+- **Priority Score:** 103406.0
+- **Functions:** 18/26 matched (target 36)
+- **Missing functions:** `fmt`, `partial_cmp`, `cmp`, `default`, `deref`, `try_from_str`, `from_str_or_panic`, `as_str`
+- **Types:** 6/8 matched (target 9)
+- **Missing types:** `Target`, `Owned`
+- **Tests:** 1/1 matched
+
+### 5. error
+
+- **Target:** `icuprovider.Error`
+- **Similarity:** 0.45
+- **Dependents:** 0
+- **Priority Score:** 51605.5
+- **Functions:** 9/13 matched (target 15)
+- **Missing functions:** `fmt`, `with_str_context`, `with_path_context`, `from`
+- **Types:** 2/3 matched (target 9)
+- **Missing types:** `ResultDataError`
+
+### 6. fallback
+
+- **Target:** `icuprovider.Fallback`
+- **Similarity:** 0.27
+- **Dependents:** 0
+- **Priority Score:** 307.3
+- **Functions:** 1/1 matched (target 2)
+- **Missing functions:** _none_
+- **Types:** 2/2 matched
+- **Missing types:** _none_
 
 ## Success Criteria
 
