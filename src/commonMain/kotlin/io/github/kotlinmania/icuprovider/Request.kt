@@ -29,7 +29,11 @@ data class DataRequest(
     val id: DataIdentifierBorrowed = DataIdentifierBorrowed(),
     /** Metadata that may affect the behavior of the data provider. */
     val metadata: DataRequestMetadata = DataRequestMetadata(),
-)
+) {
+    companion object {
+        fun default(): DataRequest = DataRequest()
+    }
+}
 
 /**
  * Metadata for data requests. This is currently empty, but it may be extended with options for
@@ -43,6 +47,10 @@ data class DataRequestMetadata(
 ) : Comparable<DataRequestMetadata> {
     override fun compareTo(other: DataRequestMetadata): Int =
         compareValuesBy(this, other, DataRequestMetadata::silent, DataRequestMetadata::attributesPrefixMatch)
+
+    companion object {
+        fun default(): DataRequestMetadata = DataRequestMetadata()
+    }
 }
 
 /** The borrowed version of a [DataIdentifierCow]. */
@@ -51,7 +59,7 @@ data class DataIdentifierBorrowed(
     val markerAttributes: DataMarkerAttributes = DataMarkerAttributes.empty(),
     /** The CLDR locale. */
     val locale: DataLocale = DataLocale(),
-) {
+) : Comparable<DataIdentifierBorrowed> {
     /** Converts this [DataIdentifierBorrowed] into a [DataIdentifierCow]. */
     fun intoOwned(): DataIdentifierCow =
         DataIdentifierCow(
@@ -73,7 +81,23 @@ data class DataIdentifierBorrowed(
             "$locale/${markerAttributes.asString()}"
         }
 
+    fun partialCmp(other: DataIdentifierBorrowed): Int? = cmp(other)
+
+    fun cmp(other: DataIdentifierBorrowed): Int = compareTo(other)
+
+    fun fmt(): String = toString()
+
+    override fun compareTo(other: DataIdentifierBorrowed): Int {
+        val markerAttributesComparison = markerAttributes.compareTo(other.markerAttributes)
+        if (markerAttributesComparison != 0) {
+            return markerAttributesComparison
+        }
+        return locale.totalCompare(other.locale)
+    }
+
     companion object {
+        fun default(): DataIdentifierBorrowed = DataIdentifierBorrowed()
+
         /** Creates a [DataIdentifierBorrowed] for a borrowed [DataLocale]. */
         fun forLocale(locale: DataLocale): DataIdentifierBorrowed =
             DataIdentifierBorrowed(locale = locale)
@@ -112,6 +136,12 @@ data class DataIdentifierCow(
             locale = locale,
         )
 
+    fun partialCmp(other: DataIdentifierCow): Int? = cmp(other)
+
+    fun cmp(other: DataIdentifierCow): Int = compareTo(other)
+
+    fun fmt(): String = toString()
+
     /** Returns whether this id is equal to the default. */
     fun isUnknown(): Boolean = markerAttributes.isEmpty() && locale.isUnknown()
 
@@ -131,6 +161,8 @@ data class DataIdentifierCow(
         }
 
     companion object {
+        fun default(): DataIdentifierCow = DataIdentifierCow()
+
         /** Creates a [DataIdentifierCow] from an owned [DataLocale]. */
         fun fromLocale(locale: DataLocale): DataIdentifierCow =
             DataIdentifierCow(locale = locale)
@@ -172,11 +204,26 @@ data class DataIdentifierCow(
  */
 class DataMarkerAttributes private constructor(
     private val value: String,
-) : Comparable<DataMarkerAttributes> {
+) : Comparable<DataMarkerAttributes>, CharSequence {
+    override val length: Int
+        get() = value.length
+
+    override fun get(index: Int): Char = value[index]
+
+    override fun subSequence(
+        startIndex: Int,
+        endIndex: Int,
+    ): CharSequence = value.subSequence(startIndex, endIndex)
+
     fun isEmpty(): Boolean = value.isEmpty()
 
     /** Returns this [DataMarkerAttributes] as a string. */
     fun asString(): String = value
+
+    /** Returns this [DataMarkerAttributes] as a string. */
+    fun asStr(): String = value
+
+    fun deref(): String = value
 
     fun toOwned(): DataMarkerAttributes = DataMarkerAttributes(value)
 
@@ -190,8 +237,12 @@ class DataMarkerAttributes private constructor(
 
     override fun toString(): String = value
 
+    fun fmt(): String = value
+
     companion object {
         private val EMPTY = DataMarkerAttributes("")
+
+        fun default(): DataMarkerAttributes = EMPTY
 
         private fun validate(codeUnits: ByteArray): Result<Unit> {
             for (codeUnitByte in codeUnits) {
@@ -217,6 +268,9 @@ class DataMarkerAttributes private constructor(
         fun tryFromString(value: String): Result<DataMarkerAttributes> =
             tryFromUtf8(value.encodeToByteArray())
 
+        /** Creates a borrowed [DataMarkerAttributes] from a borrowed string. */
+        fun tryFromStr(value: String): Result<DataMarkerAttributes> = tryFromString(value)
+
         /**
          * Attempts to create a borrowed [DataMarkerAttributes] from a borrowed UTF-8 encoded byte slice.
          *
@@ -233,6 +287,9 @@ class DataMarkerAttributes private constructor(
         /** Creates a borrowed [DataMarkerAttributes] from a borrowed string. */
         fun fromStringOrPanic(value: String): DataMarkerAttributes =
             tryFromString(value).getOrThrow()
+
+        /** Creates a borrowed [DataMarkerAttributes] from a borrowed string. */
+        fun fromStrOrPanic(value: String): DataMarkerAttributes = fromStringOrPanic(value)
 
         /** Creates an empty [DataMarkerAttributes]. */
         fun empty(): DataMarkerAttributes = EMPTY
