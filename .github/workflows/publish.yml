@@ -3,9 +3,6 @@ name: Publish to Maven Central
 on:
   release:
     types: [released]
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
     inputs:
       publish:
