@@ -4,12 +4,12 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 6/18 (33.3%)
-- **Function parity:** 48/180 matched (target 91) — 26.7%
-- **Class/type parity:** 30/79 matched (target 45) — 38.0%
-- **Combined symbol parity:** 78/259 matched (target 136) — 30.1%
-- **Average inline-code cosine:** 0.27 (function body across 6 matched files)
-- **Average documentation cosine:** 0.75 (doc text across 6 matched files)
+- **Files Present:** 8/18 (44.4%)
+- **Function parity:** 61/180 matched (target 118) — 33.9%
+- **Class/type parity:** 37/79 matched (target 53) — 46.8%
+- **Combined symbol parity:** 98/259 matched (target 171) — 37.8%
+- **Average inline-code cosine:** 0.44 (function body across 8 matched files)
+- **Average documentation cosine:** 0.73 (doc text across 8 matched files)
 - **Cheat-zeroed Files:** 0
 - **Critical Issues:** 6 files with <0.60 function similarity
 
@@ -66,11 +66,11 @@ Every matched file is listed below with function and type symbol parity.
 ### 4. request
 
 - **Target:** `icuprovider.Request`
-- **Similarity:** 0.40
+- **Similarity:** 0.60
 - **Dependents:** 0
-- **Priority Score:** 103406.0
-- **Functions:** 18/26 matched (target 36)
-- **Missing functions:** `fmt`, `partial_cmp`, `cmp`, `default`, `deref`, `try_from_str`, `from_str_or_panic`, `as_str`
+- **Priority Score:** 23404.0
+- **Functions:** 26/26 matched (target 55)
+- **Missing functions:** _none_
 - **Types:** 6/8 matched (target 9)
 - **Missing types:** `Target`, `Owned`
 - **Tests:** 1/1 matched
@@ -78,21 +78,43 @@ Every matched file is listed below with function and type symbol parity.
 ### 5. error
 
 - **Target:** `icuprovider.Error`
-- **Similarity:** 0.45
+- **Similarity:** 0.60
 - **Dependents:** 0
-- **Priority Score:** 51605.5
-- **Functions:** 9/13 matched (target 15)
-- **Missing functions:** `fmt`, `with_str_context`, `with_path_context`, `from`
-- **Types:** 2/3 matched (target 9)
-- **Missing types:** `ResultDataError`
+- **Priority Score:** 1604.0
+- **Functions:** 13/13 matched (target 22)
+- **Missing functions:** _none_
+- **Types:** 3/3 matched (target 11)
+- **Missing types:** _none_
 
-### 6. fallback
+### 6. buf
+
+- **Target:** `buf.Buf`
+- **Similarity:** 0.51
+- **Dependents:** 0
+- **Priority Score:** 504.9
+- **Functions:** 1/1 matched
+- **Missing functions:** _none_
+- **Types:** 4/4 matched
+- **Missing types:** _none_
+
+### 7. fallback
 
 - **Target:** `icuprovider.Fallback`
 - **Similarity:** 0.27
 - **Dependents:** 0
 - **Priority Score:** 307.3
 - **Functions:** 1/1 matched (target 2)
+- **Missing functions:** _none_
+- **Types:** 2/2 matched
+- **Missing types:** _none_
+
+### 8. baked
+
+- **Target:** `baked.Baked`
+- **Similarity:** 1.00
+- **Dependents:** 0
+- **Priority Score:** 200.0
+- **Functions:** 0/0 matched
 - **Missing functions:** _none_
 - **Types:** 2/2 matched
 - **Missing types:** _none_

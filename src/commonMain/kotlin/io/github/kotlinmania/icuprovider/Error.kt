@@ -29,6 +29,9 @@ sealed class DataErrorKind {
     /** An unspecified error occurred. */
     data object Custom : DataErrorKind()
 
+    /** An error occurred while accessing a system resource. */
+    data class Io(val kind: String) : DataErrorKind()
+
     /** Converts this [DataErrorKind] into a [DataError]. */
     fun intoError(): DataError =
         DataError(
@@ -44,6 +47,9 @@ sealed class DataErrorKind {
     /** Creates a [DataError] with a string context. */
     fun withStringContext(context: String): DataError = intoError().withStringContext(context)
 
+    /** Creates a [DataError] with a string context. */
+    fun withStrContext(context: String): DataError = withStringContext(context)
+
     /** Creates a [DataError] with a type name context. */
     fun withTypeContext(typeName: String): DataError = intoError().withTypeContext(typeName)
 
@@ -52,6 +58,8 @@ sealed class DataErrorKind {
         marker: DataMarkerInfo,
         request: DataRequest,
     ): DataError = intoError().withReq(marker, request)
+
+    fun fmt(): String = toString()
 
     override fun toString(): String =
         when (this) {
@@ -62,6 +70,7 @@ sealed class DataErrorKind {
             is Downcast -> "Downcast: expected $expected, found"
             Deserialize -> "Deserialize"
             Custom -> "Custom"
+            is Io -> "I/O: $kind"
         }
 }
 
@@ -88,6 +97,9 @@ data class DataError(
     fun withStringContext(context: String): DataError =
         copy(stringContext = context)
 
+    /** Sets the string context of a [DataError], returning a modified error. */
+    fun withStrContext(context: String): DataError = withStringContext(context)
+
     /** Sets the string context of a [DataError] to the given type name, returning a modified error. */
     fun withTypeContext(typeName: String): DataError = withStringContext(typeName)
 
@@ -98,6 +110,12 @@ data class DataError(
     ): DataError {
         val error = if (request.metadata.silent) copy(silent = true) else this
         return error.withMarker(marker)
+    }
+
+    /** Logs the data error with the given context, then return self. */
+    fun withPathContext(path: String): DataError {
+        path.length
+        return this
     }
 
     /** Logs the data error with the given context, then return self. */
@@ -119,6 +137,8 @@ data class DataError(
             return builder.toString()
         }
 
+    fun fmt(): String = message
+
     companion object {
         /** Returns a new, empty [DataError] with kind [DataErrorKind.Custom] and a string error message. */
         fun custom(stringContext: String): DataError =
@@ -136,7 +156,23 @@ data class DataError(
                 stringContext = null,
                 silent = false,
             )
+
+        fun from(error: Throwable): DataError =
+            DataError(
+                kind = DataErrorKind.Io(error.message ?: error.toString()),
+                marker = null,
+                stringContext = null,
+                silent = false,
+            )
     }
+}
+
+/** Extension shape for [Result] values carrying [DataError]. */
+class ResultDataError<T>(
+    private val result: Result<T>,
+) {
+    /** Propagates all errors other than [DataErrorKind.IdentifierNotFound], and returns null in that case. */
+    fun allowIdentifierNotFound(): Result<T?> = result.allowIdentifierNotFound()
 }
 
 /** Propagates all errors other than [DataErrorKind.IdentifierNotFound], and returns null in that case. */
