@@ -199,7 +199,11 @@ kotlin {
         binaries.framework { baseName = "IcuProvider"; xcf.add(this) }
     }
     iosSimulatorArm64 {
-        binaries.framework { baseName = "IcuProvider"; xcf.add(this) }
+        binaries.framework {
+            baseName = "IcuProvider"
+            isStatic = true
+            xcf.add(this)
+        }
     }
     iosX64 {
         binaries.framework { baseName = "IcuProvider"; xcf.add(this) }
