@@ -199,10 +199,22 @@ kotlin {
         binaries.framework { baseName = "IcuProvider"; xcf.add(this) }
     }
     iosSimulatorArm64 {
-        binaries.framework { baseName = "IcuProvider"; xcf.add(this) }
+        binaries.framework {
+            baseName = "IcuProvider"
+            isStatic = true
+            xcf.add(this)
+        }
     }
     iosX64 {
-        binaries.framework { baseName = "IcuProvider"; xcf.add(this) }
+        // iOS Simulator targets share an XCFramework "fat" stage that
+        // requires every input framework to be either all static or all
+        // dynamic. iosSimulatorArm64 is already declared static for the
+        // Swift Export SPM bridge, so iosX64 must match.
+        binaries.framework {
+            baseName = "IcuProvider"
+            isStatic = true
+            xcf.add(this)
+        }
     }
 
     tvosArm64 {

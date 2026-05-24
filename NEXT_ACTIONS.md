@@ -131,12 +131,11 @@ For each file to be considered "complete":
 ## Next Commands
 
 ```bash
-# Initialize task queue for systematic porting
-cd tools/ast_distance
-./ast_distance --init-tasks ../../tmp/icu_provider/src rust ../../src/commonMain/kotlin/io/github/kotlinmania/icuprovider kotlin tasks.json ../../AGENTS.md
+# Initialize task queue for systematic porting from the workspace-approved evaluator
+/Volumes/stuff/Projects/kotlinmania/bin/ast_distance --init-tasks tmp/icu_provider/src rust src/commonMain/kotlin/io/github/kotlinmania/icuprovider kotlin tmp/tasks.json AGENTS.md
 
 # Get next high-priority task
-./ast_distance --assign tasks.json <agent-id>
+/Volumes/stuff/Projects/kotlinmania/bin/ast_distance --assign tmp/tasks.json <agent-id>
 ```
 ## Reexport / Wiring Modules
 
