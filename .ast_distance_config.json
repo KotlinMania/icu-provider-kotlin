@@ -1,4 +1,5 @@
 {
+  "parity_mode": false,
   "name": "icu-provider-kotlin",
   "source": {
     "path": "tmp/icu_provider/src",
