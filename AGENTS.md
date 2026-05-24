@@ -21,14 +21,16 @@ Kotlin library when a `*-kotlin` sibling port exists or should exist.
 
 Check the repo before choosing a workflow.
 
-- **If `tools/ast_distance/` exists:** the repo is still in parity/porting
-  mode. Drift measurement is required, not optional. Use the repo's
-  `tools/ast_distance` binary/script to identify missing files, missing
+- Use only `/Volumes/stuff/Projects/kotlinmania/bin/ast_distance` for
+  ast-distance work. If a repo-local `tools/ast_distance/` copy appears, refresh
+  it from the workspace binary before using it; do not run a stale local copy.
+- **If ast-distance is required for a task:** drift measurement is required, not
+  optional. Use the workspace-approved binary to identify missing files, missing
   functions, provenance/header drift, and cheat-detection failures before
   choosing work and again at file or phase boundaries. Do not chase similarity
   scores in the middle of translating a half-read file, and never Rustify
   Kotlin to appease the tool.
-- **If `tools/ast_distance/` does not exist:** the repo has matured past the
+- **If ast-distance is not required for a task:** the repo has matured past the
   structural-port phase and is optimizing for idiomatic Kotlin. Work like a
   Kotlin maintainer: preserve behavior and public API intent, improve Kotlin
   shape when appropriate, and use the repo's tests/docs as the gate. Do not
@@ -40,7 +42,7 @@ Check the repo before choosing a workflow.
 2. Confirm the upstream Rust source is present under the `tmp/` path named by
    `CLAUDE.md` or `.ast_distance_config.json`. Fetch it using the repo's helper
    if needed. Never edit it.
-3. If `tools/ast_distance/` exists, run the repo's `ast_distance --deep`
+3. If ast-distance is required, run the workspace-approved `ast_distance --deep`
    workflow before picking work. Use it as the required inventory for unported
    files/functions and provenance drift.
 4. Pick bottom-up work: dependencies before consumers, leaves before roots.
@@ -335,11 +337,10 @@ Use the repo's documented Gradle tasks. Common gates include:
 ./gradlew wasmJsNodeTest
 ```
 
-In parity repos with `tools/ast_distance/`, also run the repo's deep scan, for
-example:
+When ast-distance is required, run the workspace-approved deep scan, for example:
 
 ```bash
-./tools/ast_distance/ast_distance --deep <upstream-root> rust <kotlin-source-root> kotlin
+/Volumes/stuff/Projects/kotlinmania/bin/ast_distance --deep <upstream-root> rust <kotlin-source-root> kotlin
 ```
 
 The exact paths come from `.ast_distance_config.json`, `CLAUDE.md`, or existing
