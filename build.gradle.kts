@@ -286,7 +286,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.4.0")
                 // Upstream src/lib.rs does `pub use log` under the `logging` feature.
-                implementation("io.github.kotlinmania:log-kotlin:0.1.1")
+                implementation("io.github.kotlinmania:log-kotlin:0.1.3")
             }
         }
         val commonTest by getting {
