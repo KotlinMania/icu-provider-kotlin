@@ -47,15 +47,17 @@ enum class BufferFormat {
     fun checkAvailable(): Result<Unit> =
         when (this) {
             Json -> Result.success(Unit)
-            Bincode1 -> Result.failure(
-                DataErrorKind.Deserialize.withStringContext(
-                    "deserializing BufferFormat.Bincode1 requires bincode version 1 support",
-                ),
-            )
-            Postcard1 -> Result.failure(
-                DataErrorKind.Deserialize.withStringContext(
-                    "deserializing BufferFormat.Postcard1 requires postcard version 1 support",
-                ),
-            )
+            Bincode1 ->
+                Result.failure(
+                    DataErrorKind.Deserialize.withStringContext(
+                        "deserializing BufferFormat.Bincode1 requires bincode version 1 support",
+                    ),
+                )
+            Postcard1 ->
+                Result.failure(
+                    DataErrorKind.Deserialize.withStringContext(
+                        "deserializing BufferFormat.Postcard1 requires postcard version 1 support",
+                    ),
+                )
         }
 }

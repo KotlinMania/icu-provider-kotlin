@@ -204,7 +204,8 @@ data class DataIdentifierCow(
  */
 class DataMarkerAttributes private constructor(
     private val value: String,
-) : Comparable<DataMarkerAttributes>, CharSequence {
+) : Comparable<DataMarkerAttributes>,
+    CharSequence {
     override val length: Int
         get() = value.length
 
