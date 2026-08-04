@@ -44,7 +44,12 @@ class MarkerTest {
     fun testIdHash() {
         assertEquals(
             listOf(212, 77, 158, 241),
-            DataMarkerId.fromName("BarV1").getOrThrow().hashed().toBytes().toUnsignedInts(),
+            DataMarkerId
+                .fromName("BarV1")
+                .getOrThrow()
+                .hashed()
+                .toBytes()
+                .toUnsignedInts(),
         )
     }
 

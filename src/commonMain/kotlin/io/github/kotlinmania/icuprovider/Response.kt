@@ -74,7 +74,9 @@ sealed class DataPayloadOr<M, DataStruct : Any, O>
     }
 }
 
-class DataPayloadOtherError(message: String) : Exception(message)
+class DataPayloadOtherError(
+    message: String,
+) : Exception(message)
 
 /** The type of the cart that is used by [DataPayload]. */
 data class Cart(

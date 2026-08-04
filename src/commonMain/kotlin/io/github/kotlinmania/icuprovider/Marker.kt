@@ -46,9 +46,10 @@ class NeverMarker<Y : Any> : DataMarker<Y> {
     override val info: DataMarkerInfo = INFO
 
     companion object {
-        val INFO: DataMarkerInfo = DataMarkerInfo.fromId(
-            DataMarkerId.fromName("NeverMarkerV1").getOrThrow(),
-        )
+        val INFO: DataMarkerInfo =
+            DataMarkerInfo.fromId(
+                DataMarkerId.fromName("NeverMarkerV1").getOrThrow(),
+            )
     }
 }
 
@@ -188,16 +189,17 @@ class DataMarkerId private constructor(
             return Result.success(
                 DataMarkerId(
                     debug = name,
-                    hash = byteArrayOf(
-                        DataMarkerIdHash.LEADING_TAG[0],
-                        DataMarkerIdHash.LEADING_TAG[1],
-                        DataMarkerIdHash.LEADING_TAG[2],
-                        DataMarkerIdHash.LEADING_TAG[3],
-                        markerHash[0],
-                        markerHash[1],
-                        markerHash[2],
-                        markerHash[3],
-                    ),
+                    hash =
+                        byteArrayOf(
+                            DataMarkerIdHash.LEADING_TAG[0],
+                            DataMarkerIdHash.LEADING_TAG[1],
+                            DataMarkerIdHash.LEADING_TAG[2],
+                            DataMarkerIdHash.LEADING_TAG[3],
+                            markerHash[0],
+                            markerHash[1],
+                            markerHash[2],
+                            markerHash[3],
+                        ),
                 ),
             )
         }
