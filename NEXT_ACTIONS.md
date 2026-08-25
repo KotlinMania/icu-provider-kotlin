@@ -4,14 +4,14 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 8/18 (44.4%)
-- **Function parity:** 61/180 matched (target 118) — 33.9%
-- **Class/type parity:** 37/79 matched (target 53) — 46.8%
-- **Combined symbol parity:** 98/259 matched (target 171) — 37.8%
-- **Average inline-code cosine:** 0.44 (function body across 8 matched files)
-- **Average documentation cosine:** 0.73 (doc text across 8 matched files)
-- **Cheat-zeroed Files:** 0
-- **Critical Issues:** 6 files with <0.60 function similarity
+- **Files Present:** 18/18 (100.0%)
+- **Function parity:** 111/177 matched (target 198) — 62.7%
+- **Class/type parity:** 63/84 matched (target 95) — 75.0%
+- **Combined symbol parity:** 174/261 matched (target 293) — 66.7%
+- **Average inline-code cosine:** 0.34 (function body across 15 matched files)
+- **Average documentation cosine:** 0.58 (doc text across 15 matched files)
+- **Cheat-zeroed Files:** 3
+- **Critical Issues:** 16 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -30,26 +30,26 @@ Every matched file is listed below with function and type symbol parity.
 ### 1. response
 
 - **Target:** `icuprovider.Response`
-- **Similarity:** 0.04
+- **Similarity:** 0.13
 - **Dependents:** 0
-- **Priority Score:** 344209.6
-- **Functions:** 3/32 matched (target 4)
-- **Missing functions:** `deref`, `unwrap_cart`, `fmt`, `clone`, `eq`, `test_clone_eq`, `from_owned`, `from_static_ref`, `with_mut`, `get_static`, `map_project`, `map_project_cloned`, `try_map_project`, `try_map_project_cloned`, `cast`, `cast_ref`, `dynamic_cast`, `dynamic_cast_mut`, `from_owned_buffer`, `from_yoked_buffer`, `from_static_buffer`, `default`, `from_payload`, `from_other`, `is_payload`, `into_inner`, `none`, `get_option`, `test_debug`
-- **Types:** 5/10 matched (target 8)
+- **Priority Score:** 234208.7
+- **Functions:** 14/32 matched (target 23)
+- **Missing functions:** `deref`, `fmt`, `clone`, `eq`, `from_owned`, `from_static_ref`, `map_project`, `map_project_cloned`, `try_map_project`, `try_map_project_cloned`, `cast`, `cast_ref`, `dynamic_cast`, `dynamic_cast_mut`, `from_payload`, `from_other`, `none`, `test_debug`
+- **Types:** 5/10 matched (target 9)
 - **Missing types:** `DataPayloadInner`, `DataPayloadOrInner`, `DataPayloadOrInnerInner`, `CartInner`, `Target`
-- **Tests:** 0/2 matched
+- **Tests:** 1/2 matched
 
-### 2. data_provider
+### 2. export.payload
 
-- **Target:** `icuprovider.DataProvider`
-- **Similarity:** 0.03
+- **Target:** `icuprovider.ExportTest`
+- **Similarity:** 0.13
 - **Dependents:** 0
-- **Priority Score:** 213109.7
-- **Functions:** 2/19 matched (target 2)
-- **Missing functions:** `load`, `dry_load`, `load_data`, `dry_load_data`, `iter_ids_for_marker`, `new`, `from`, `get_warehouse`, `get_payload_v1`, `get_payload_alt`, `test_warehouse_owned`, `test_warehouse_owned_dyn_generic`, `test_provider2`, `test_provider2_dyn_generic`, `test_provider2_dyn_generic_alt`, `check_v1_v2`, `test_v1_v2_generic`
-- **Types:** 8/12 matched (target 8)
-- **Missing types:** `HelloAlt`, `HelloCombined`, `DataWarehouse`, `DataProvider2`
-- **Tests:** 0/11 matched
+- **Priority Score:** 182608.8
+- **Functions:** 5/20 matched (target 7)
+- **Missing functions:** `bake_yoke`, `serialize_yoke`, `maybe_bake_varule_encoded`, `eq`, `fmt`, `upcast`, `serialize`, `tokenize`, `tokenize_encoded_seq`, `postcard_size`, `baked_size`, `hash`, `hash_and_postcard_size`, `try_push`, `finalize`
+- **Types:** 3/6 matched (target 4)
+- **Missing types:** `HashFlavor`, `Output`, `DataStruct`
+- **Tests:** 2/2 matched
 
 ### 3. marker
 
@@ -63,7 +63,64 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `DataMarkerExt`, `DataStruct`, `Container`, `Slice`, `GetType`, `OwnedType`, `ULE`
 - **Tests:** 4/4 matched
 
-### 4. request
+### 4. data_provider
+
+- **Target:** `icuprovider.DataProvider`
+- **Similarity:** 0.21
+- **Dependents:** 0
+- **Priority Score:** 103107.9
+- **Functions:** 9/19 matched (target 14)
+- **Missing functions:** `dry_load`, `load_data`, `dry_load_data`, `iter_ids_for_marker`, `new`, `from`, `get_warehouse`, `get_payload_v1`, `get_payload_alt`, `check_v1_v2`
+- **Types:** 12/12 matched (target 14)
+- **Missing types:** _none_
+- **Tests:** 6/11 matched
+
+### 5. buf.serde
+
+- **Target:** `buf.Serde`
+- **Similarity:** 0.12
+- **Dependents:** 0
+- **Priority Score:** 71008.8
+- **Functions:** 2/8 matched (target 2)
+- **Missing functions:** `as_deserializing`, `deserialize_impl`, `into_deserialized`, `load`, `dry_load`, `from`
+- **Types:** 1/2 matched
+- **Missing types:** `AsDeserializingBufferProvider`
+
+### 6. hello_world
+
+- **Target:** `icuprovider.HelloWorld`
+- **Similarity:** 0.51
+- **Dependents:** 0
+- **Priority Score:** 42104.9
+- **Functions:** 12/16 matched (target 17)
+- **Missing functions:** `from_static_str`, `write_to`, `writeable_borrow`, `writeable_length_hint`
+- **Types:** 5/5 matched (target 8)
+- **Missing types:** _none_
+- **Tests:** 1/1 matched
+
+### 7. baked.zerotrie
+
+- **Target:** `baked.Zerotrie`
+- **Similarity:** 0.17
+- **Dependents:** 0
+- **Priority Score:** 40908.3
+- **Functions:** 2/5 matched (target 6)
+- **Missing functions:** `get_index`, `from_trie_and_values_unchecked`, `from_trie_and_refs_unchecked`
+- **Types:** 3/4 matched (target 3)
+- **Missing types:** `IterReturn`
+
+### 8. export.mod
+
+- **Target:** `export.Mod [STUB]`
+- **Similarity:** 0.00
+- **Dependents:** 0
+- **Priority Score:** 31210.0
+- **Functions:** 4/7 matched
+- **Missing functions:** `supported_markers`, `new`, `fmt`
+- **Types:** 5/5 matched
+- **Missing types:** _none_
+
+### 9. request
 
 - **Target:** `icuprovider.Request`
 - **Similarity:** 0.60
@@ -75,7 +132,30 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `Target`, `Owned`
 - **Tests:** 1/1 matched
 
-### 5. error
+### 10. varule_traits
+
+- **Target:** `icuprovider.VaruleTraits [ZERO]`
+- **Similarity:** 0.00
+- **Dependents:** 0
+- **Priority Score:** 20410.0
+- **Functions:** 0/1 matched (target 0)
+- **Missing functions:** `maybe_encode_as_varule`
+- **Types:** 2/3 matched (target 2)
+- **Missing types:** `EncodedStruct`
+
+### 11. serde_borrow_de_utils
+
+- **Target:** `icuprovider.SerdeBorrowDeUtils`
+- **Similarity:** 0.38
+- **Dependents:** 0
+- **Priority Score:** 10906.2
+- **Functions:** 6/6 matched (target 8)
+- **Missing functions:** _none_
+- **Types:** 2/3 matched (target 6)
+- **Missing types:** `Demo`
+- **Tests:** 3/3 matched
+
+### 12. error
 
 - **Target:** `icuprovider.Error`
 - **Similarity:** 0.60
@@ -86,7 +166,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 3/3 matched (target 11)
 - **Missing types:** _none_
 
-### 6. buf
+### 13. buf
 
 - **Target:** `buf.Buf`
 - **Similarity:** 0.51
@@ -97,7 +177,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 4/4 matched
 - **Missing types:** _none_
 
-### 7. fallback
+### 14. fallback
 
 - **Target:** `icuprovider.Fallback`
 - **Similarity:** 0.27
@@ -108,7 +188,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/2 matched
 - **Missing types:** _none_
 
-### 8. baked
+### 15. baked
 
 - **Target:** `baked.Baked`
 - **Similarity:** 1.00
@@ -117,6 +197,40 @@ Every matched file is listed below with function and type symbol parity.
 - **Functions:** 0/0 matched
 - **Missing functions:** _none_
 - **Types:** 2/2 matched
+- **Missing types:** _none_
+
+### 16. dynutil
+
+- **Target:** `icuprovider.Dynutil [ZERO]`
+- **Similarity:** 0.00
+- **Dependents:** 0
+- **Priority Score:** 110.0
+- **Functions:** 0/0 matched (target 1)
+- **Missing functions:** _none_
+- **Types:** 1/1 matched (target 2)
+- **Missing types:** _none_
+
+### 17. lib
+
+- **Target:** `icuprovider.Lib [STUB]`
+- **Similarity:** 0.27
+- **Dependents:** 0
+- **Priority Score:** 107.3
+- **Functions:** 1/1 matched
+- **Missing functions:** _none_
+- **Types:** 0/0 matched (target 2)
+- **Missing types:** _none_
+- **Tests:** 1/1 matched
+
+### 18. constructors
+
+- **Target:** `icuprovider.Constructors [STUB]`
+- **Similarity:** 1.00
+- **Dependents:** 0
+- **Priority Score:** 0.0
+- **Functions:** 0/0 matched
+- **Missing functions:** _none_
+- **Types:** 0/0 matched (target 1)
 - **Missing types:** _none_
 
 ## Success Criteria
@@ -128,25 +242,3 @@ For each file to be considered "complete":
 - Documentation ported
 - port-lint header present
 
-## Next Commands
-
-```bash
-# Initialize task queue for systematic porting from the workspace-approved evaluator
-/Volumes/stuff/Projects/kotlinmania/bin/ast_distance --init-tasks tmp/icu_provider/src rust src/commonMain/kotlin/io/github/kotlinmania/icuprovider kotlin tmp/tasks.json AGENTS.md
-
-# Get next high-priority task
-/Volumes/stuff/Projects/kotlinmania/bin/ast_distance --assign tmp/tasks.json <agent-id>
-```
-## Reexport / Wiring Modules
-
-These files match `reexport_modules` patterns in `.ast_distance_config.json`. They are filtered out of
-normal priority and missing-file ladders because they are wiring
-modules, not direct logic ports. Consult them for call-site routing;
-do not treat them as the next implementation target by default.
-
-### Missing
-
-| Source | Expected target | Deps | Source path | Expected path |
-|--------|-----------------|------|-------------|---------------|
-| `export.mod` | `export.Mod` | 0 | `export/mod.rs` | `export/Mod.kt` |
-| `lib` | `Lib` | 0 | `lib.rs` | `Lib.kt` |
