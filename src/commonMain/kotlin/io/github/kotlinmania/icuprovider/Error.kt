@@ -18,10 +18,14 @@ sealed class DataErrorKind {
     data object InvalidRequest : DataErrorKind()
 
     /** The data for two [DataMarker]s is not consistent. */
-    data class InconsistentData(val marker: DataMarkerInfo) : DataErrorKind()
+    data class InconsistentData(
+        val marker: DataMarkerInfo,
+    ) : DataErrorKind()
 
     /** An error occurred during downcasting. */
-    data class Downcast(val expected: String) : DataErrorKind()
+    data class Downcast(
+        val expected: String,
+    ) : DataErrorKind()
 
     /** An error occurred during deserialization. */
     data object Deserialize : DataErrorKind()
@@ -30,7 +34,9 @@ sealed class DataErrorKind {
     data object Custom : DataErrorKind()
 
     /** An error occurred while accessing a system resource. */
-    data class Io(val kind: String) : DataErrorKind()
+    data class Io(
+        val kind: String,
+    ) : DataErrorKind()
 
     /** Converts this [DataErrorKind] into a [DataError]. */
     fun intoError(): DataError =

@@ -15,8 +15,7 @@ import io.github.kotlinmania.icuprovider.DataPayload
  */
 
 /** A backing store for baked data. */
-interface DataStore<M, DataStruct : Any>
-    : Sealed
+interface DataStore<M, DataStruct : Any> : Sealed
     where M : DataMarker<DataStruct> {
     /** Get the value for a key. */
     fun get(
