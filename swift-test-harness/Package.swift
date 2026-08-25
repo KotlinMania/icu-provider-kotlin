@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.0
 import PackageDescription
 
 let package = Package(
@@ -15,10 +15,19 @@ let package = Package(
             dependencies: [
                 .product(name: "IcuProviderLibrary", package: "IcuProvider")
             ],
+            swiftSettings: [
+                .unsafeFlags([
+                    "-F", "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+                ]),
+            ],
             linkerSettings: [
                 .unsafeFlags([
                     "-L", "../build/swift-test",
+                    "-L", "../build/MergedLibraries/macos/Debug",
                     "-lIcuProvider",
+                    "-F", "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+                    "-Xlinker", "-rpath", "-Xlinker", "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+                    "-Xlinker", "-rpath", "-Xlinker", "/Library/Developer/CommandLineTools/Library/Developer/usr/lib",
                 ]),
             ]
         ),

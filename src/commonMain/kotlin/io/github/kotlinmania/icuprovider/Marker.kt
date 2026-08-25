@@ -30,9 +30,7 @@ interface DataMarker<DataStruct : Any> : DynamicDataMarker<DataStruct> {
 }
 
 /** Binds a [DataMarker] to a provider supporting it. */
-fun <M, DataStruct : Any, P> M.bind(provider: P): DataProviderWithMarker<M, DataStruct, P>
-    where M : DataMarker<DataStruct>,
-          P : DataProvider<M, DataStruct> =
+internal fun <DataStruct : Any, M : DataMarker<DataStruct>, P : DataProvider<M, DataStruct>> M.bind(provider: P): DataProviderWithMarker<M, DataStruct, P> =
     DataProviderWithMarker(provider, this)
 
 /** Constructs a [DataLocale] using fallback preferences from this [DataMarker]. */

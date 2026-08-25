@@ -34,13 +34,13 @@ class ResponseTest {
 
     @Test
     fun testWithMut() {
-        val payload = DataPayload.fromOwned<HelloWorldV1, HelloWorld>(HelloWorld("Hello"))
+        val payload = DataPayload.fromOwned<HelloWorld, HelloWorldV1>(HelloWorld("Hello"))
         assertEquals("Hello", payload.get().message)
     }
 
     @Test
     fun testMapProject() {
-        val p1 = DataPayload.fromOwned<HelloWorldV1, HelloWorld>(HelloWorld("Hello World"))
+        val p1 = DataPayload.fromOwned<HelloWorld, HelloWorldV1>(HelloWorld("Hello World"))
         assertEquals("Hello World", p1.get().message)
 
         val p2: DataPayload<HelloWorldV1, HelloWorld> = p1.mapProject { HelloWorld("${it.message} Extra") }
