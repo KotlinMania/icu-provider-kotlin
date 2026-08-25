@@ -1,9 +1,11 @@
-import XCTest
+import Testing
 import IcuProvider
 
-final class IcuProviderExportTests: XCTestCase {
+@Suite("IcuProvider Export Smoke Tests")
+struct IcuProviderExportTests {
+    @Test("Swift module loads cleanly")
     func testSwiftModuleLoads() throws {
-        XCTAssertTrue(true, "IcuProvider swift module imported cleanly")
+        #expect(true)
     }
 }
 

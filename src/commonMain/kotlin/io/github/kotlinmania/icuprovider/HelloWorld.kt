@@ -154,7 +154,7 @@ data class HelloWorldFormatterPreferences(
  *
  * This type is intended to take the shape of a typical ICU4X formatter API.
  */
-class HelloWorldFormatter(
+class HelloWorldFormatter internal constructor(
     val data: DataPayload<HelloWorldV1, HelloWorld>,
 ) {
     /** Formats a hello world message, returning a [FormattedHelloWorld]. */

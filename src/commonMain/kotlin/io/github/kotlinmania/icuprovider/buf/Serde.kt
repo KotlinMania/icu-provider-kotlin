@@ -70,12 +70,11 @@ class DeserializingBufferProvider(
     }
 
     /** Typed [load] method for a specific marker and data struct. */
-    inline fun <M, DataStruct : Any> loadTyped(
+    internal inline fun <DataStruct : Any, M : DataMarker<DataStruct>> loadTyped(
         marker: M,
         request: DataRequest,
         deserializer: (ByteArray) -> DataStruct,
-    ): Result<DataResponse<M, DataStruct>>
-        where M : DataMarker<DataStruct> {
+    ): Result<DataResponse<M, DataStruct>> {
         val bufferResponse = underlying.loadData(marker.info, request).getOrElse { return Result.failure(it) }
         val bytes = bufferResponse.payload.get()
         val data =
@@ -85,7 +84,7 @@ class DeserializingBufferProvider(
         return Result.success(
             DataResponse(
                 metadata = bufferResponse.metadata,
-                payload = DataPayload.fromOwned(data),
+                payload = DataPayload.fromOwned<DataStruct, M>(data),
             ),
         )
     }
@@ -95,13 +94,12 @@ class DeserializingBufferProvider(
 fun BufferProvider.asDeserializing(): DeserializingBufferProvider = DeserializingBufferProvider(this)
 
 /** Deserializes a buffer payload into a typed payload. */
-inline fun <M, DataStruct : Any> DataPayload<BufferMarker, ByteArray>.intoDeserialized(
+internal inline fun <DataStruct : Any, M : DynamicDataMarker<DataStruct>> DataPayload<BufferMarker, ByteArray>.intoDeserialized(
     bufferFormat: BufferFormat,
     deserializer: (ByteArray) -> DataStruct,
-): Result<DataPayload<M, DataStruct>>
-    where M : DynamicDataMarker<DataStruct> {
+): Result<DataPayload<M, DataStruct>> {
     bufferFormat.checkAvailable().getOrElse { return Result.failure(it) }
     return runCatching {
-        DataPayload.fromOwned<M, DataStruct>(deserializer(get()))
+        DataPayload.fromOwned<DataStruct, M>(deserializer(get()))
     }
 }

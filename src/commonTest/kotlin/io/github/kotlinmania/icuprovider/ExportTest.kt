@@ -25,11 +25,11 @@ class ExportTest {
     @Test
     fun testExportMarkerPartialEq() {
         val payload1: DataPayload<ExportMarker, ExportBox> =
-            DataPayload.fromOwned<HelloWorldV1, HelloWorld>(HelloWorld("abc")).intoExportPayload()
+            DataPayload.fromOwned<HelloWorld, HelloWorldV1>(HelloWorld("abc")).intoExportPayload()
         val payload2: DataPayload<ExportMarker, ExportBox> =
-            DataPayload.fromOwned<HelloWorldV1, HelloWorld>(HelloWorld("abc")).intoExportPayload()
+            DataPayload.fromOwned<HelloWorld, HelloWorldV1>(HelloWorld("abc")).intoExportPayload()
         val payload3: DataPayload<ExportMarker, ExportBox> =
-            DataPayload.fromOwned<HelloWorldV1, HelloWorld>(HelloWorld("def")).intoExportPayload()
+            DataPayload.fromOwned<HelloWorld, HelloWorldV1>(HelloWorld("def")).intoExportPayload()
 
         assertEquals(payload1, payload2)
         assertEquals(payload2, payload1)

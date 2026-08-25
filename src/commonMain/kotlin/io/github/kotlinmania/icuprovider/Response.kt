@@ -39,38 +39,31 @@ class DataPayload<M, DataStruct : Any>(
     }
 
     /** Mutates the data stored in this [DataPayload] by replacing it with the mapped value. */
-    inline fun <NewDataStruct : Any, M2> mapProject(mapper: (DataStruct) -> NewDataStruct): DataPayload<M2, NewDataStruct>
-        where M2 : DynamicDataMarker<NewDataStruct> =
+    internal inline fun <NewDataStruct : Any, M2 : DynamicDataMarker<NewDataStruct>> mapProject(mapper: (DataStruct) -> NewDataStruct): DataPayload<M2, NewDataStruct> =
         DataPayload(mapper(value))
 
     /** Version of [mapProject] that borrows self instead of moving self. */
-    inline fun <NewDataStruct : Any, M2> mapProjectCloned(mapper: (DataStruct) -> NewDataStruct): DataPayload<M2, NewDataStruct>
-        where M2 : DynamicDataMarker<NewDataStruct> =
+    internal inline fun <NewDataStruct : Any, M2 : DynamicDataMarker<NewDataStruct>> mapProjectCloned(mapper: (DataStruct) -> NewDataStruct): DataPayload<M2, NewDataStruct> =
         DataPayload(mapper(value))
 
     /** Version of [mapProject] that bubbles up an error from mapper. */
-    inline fun <NewDataStruct : Any, M2> tryMapProject(mapper: (DataStruct) -> Result<NewDataStruct>): Result<DataPayload<M2, NewDataStruct>>
-        where M2 : DynamicDataMarker<NewDataStruct> =
+    internal inline fun <NewDataStruct : Any, M2 : DynamicDataMarker<NewDataStruct>> tryMapProject(mapper: (DataStruct) -> Result<NewDataStruct>): Result<DataPayload<M2, NewDataStruct>> =
         mapper(value).map { DataPayload(it) }
 
     /** Version of [mapProjectCloned] that bubbles up an error from mapper. */
-    inline fun <NewDataStruct : Any, M2> tryMapProjectCloned(mapper: (DataStruct) -> Result<NewDataStruct>): Result<DataPayload<M2, NewDataStruct>>
-        where M2 : DynamicDataMarker<NewDataStruct> =
+    internal inline fun <NewDataStruct : Any, M2 : DynamicDataMarker<NewDataStruct>> tryMapProjectCloned(mapper: (DataStruct) -> Result<NewDataStruct>): Result<DataPayload<M2, NewDataStruct>> =
         mapper(value).map { DataPayload(it) }
 
     /** Casts this [DataPayload] to a different marker with the same data struct. */
-    fun <M2> cast(): DataPayload<M2, DataStruct>
-        where M2 : DynamicDataMarker<DataStruct> =
+    internal fun <M2 : DynamicDataMarker<DataStruct>> cast(): DataPayload<M2, DataStruct> =
         DataPayload(value)
 
     /** Casts reference to this [DataPayload] to a different marker with the same data struct. */
-    fun <M2> castRef(): DataPayload<M2, DataStruct>
-        where M2 : DynamicDataMarker<DataStruct> =
+    internal fun <M2 : DynamicDataMarker<DataStruct>> castRef(): DataPayload<M2, DataStruct> =
         DataPayload(value)
 
     /** Converts a [DataPayload] to one of the same type with runtime type checking. */
-    inline fun <reified M2, reified TargetDataStruct : Any> dynamicCast(): Result<DataPayload<M2, TargetDataStruct>>
-        where M2 : DynamicDataMarker<TargetDataStruct> =
+    internal inline fun <reified TargetDataStruct : Any, reified M2 : DynamicDataMarker<TargetDataStruct>> dynamicCast(): Result<DataPayload<M2, TargetDataStruct>> =
         if (value is TargetDataStruct) {
             @Suppress("UNCHECKED_CAST")
             Result.success(this as DataPayload<M2, TargetDataStruct>)
@@ -79,9 +72,8 @@ class DataPayload<M, DataStruct : Any>(
         }
 
     /** Convert a mutable reference of a [DataPayload] to another mutable reference of the same type with runtime type checking. */
-    inline fun <reified M2, reified TargetDataStruct : Any> dynamicCastMut(): Result<DataPayload<M2, TargetDataStruct>>
-        where M2 : DynamicDataMarker<TargetDataStruct> =
-        dynamicCast<M2, TargetDataStruct>()
+    internal inline fun <reified TargetDataStruct : Any, reified M2 : DynamicDataMarker<TargetDataStruct>> dynamicCastMut(): Result<DataPayload<M2, TargetDataStruct>> =
+        dynamicCast<TargetDataStruct, M2>()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -95,18 +87,16 @@ class DataPayload<M, DataStruct : Any>(
 
     companion object {
         /** Creates a [DataPayload] from owned data. */
-        fun <M, DataStruct : Any> fromOwned(value: DataStruct): DataPayload<M, DataStruct>
-            where M : DynamicDataMarker<DataStruct> =
+        internal fun <DataStruct : Any, M : DynamicDataMarker<DataStruct>> fromOwned(value: DataStruct): DataPayload<M, DataStruct> =
             DataPayload(value)
 
         /** Creates a [DataPayload] from a static reference. */
-        fun <M, DataStruct : Any> fromStaticRef(value: DataStruct): DataPayload<M, DataStruct>
-            where M : DynamicDataMarker<DataStruct> =
+        internal fun <DataStruct : Any, M : DynamicDataMarker<DataStruct>> fromStaticRef(value: DataStruct): DataPayload<M, DataStruct> =
             DataPayload(value)
 
         /** Creates a [DataPayload] containing a static string for [HelloWorld]. */
         fun fromStaticStr(str: String): DataPayload<HelloWorldV1, HelloWorld> =
-            DataPayload(HelloWorld(str))
+            DataPayload<HelloWorldV1, HelloWorld>(HelloWorld(str))
 
         /** Converts an owned byte buffer into a DataPayload<BufferMarker, ByteArray>. */
         fun fromOwnedBuffer(buffer: ByteArray): DataPayload<BufferMarker, ByteArray> =
@@ -156,18 +146,15 @@ sealed class DataPayloadOr<M, DataStruct : Any, O>
 
     companion object {
         /** Creates [DataPayloadOr] from a payload. */
-        fun <M, DataStruct : Any, O> fromPayload(payload: DataPayload<M, DataStruct>): DataPayloadOr<M, DataStruct, O>
-            where M : DynamicDataMarker<DataStruct> =
+        internal fun <DataStruct : Any, M : DynamicDataMarker<DataStruct>, O> fromPayload(payload: DataPayload<M, DataStruct>): DataPayloadOr<M, DataStruct, O> =
             Payload(payload)
 
         /** Creates [DataPayloadOr] from other storage. */
-        fun <M, DataStruct : Any, O> fromOther(other: O): DataPayloadOr<M, DataStruct, O>
-            where M : DynamicDataMarker<DataStruct> =
+        internal fun <DataStruct : Any, M : DynamicDataMarker<DataStruct>, O> fromOther(other: O): DataPayloadOr<M, DataStruct, O> =
             Other(other)
 
         /** Convenience function to return the other type with value [Unit]. */
-        fun <M, DataStruct : Any> none(): DataPayloadOr<M, DataStruct, Unit>
-            where M : DynamicDataMarker<DataStruct> =
+        internal fun <DataStruct : Any, M : DynamicDataMarker<DataStruct>> none(): DataPayloadOr<M, DataStruct, Unit> =
             Other(Unit)
     }
 }
@@ -205,17 +192,15 @@ data class DataResponse<M, DataStruct : Any>(
     val payload: DataPayload<M, DataStruct>,
 ) where M : DynamicDataMarker<DataStruct> {
     /** Casts this [DataResponse] to another marker with the same data struct. */
-    fun <M2> cast(): DataResponse<M2, DataStruct>
-        where M2 : DynamicDataMarker<DataStruct> =
+    internal fun <M2 : DynamicDataMarker<DataStruct>> cast(): DataResponse<M2, DataStruct> =
         DataResponse(
             metadata = metadata,
             payload = payload.cast(),
         )
 
     /** Converts a [DataResponse] to one of the same type with runtime type checking. */
-    inline fun <reified M2, reified TargetDataStruct : Any> dynamicCast(): Result<DataResponse<M2, TargetDataStruct>>
-        where M2 : DynamicDataMarker<TargetDataStruct> =
-        payload.dynamicCast<M2, TargetDataStruct>().map {
+    internal inline fun <reified TargetDataStruct : Any, reified M2 : DynamicDataMarker<TargetDataStruct>> dynamicCast(): Result<DataResponse<M2, TargetDataStruct>> =
+        payload.dynamicCast<TargetDataStruct, M2>().map {
             DataResponse(
                 metadata = metadata,
                 payload = it,

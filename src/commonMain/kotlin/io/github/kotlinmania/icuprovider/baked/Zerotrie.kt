@@ -53,8 +53,7 @@ class Data<M, DataStruct : Any>(
             }.iterator()
 
     companion object {
-        fun <M, DataStruct : Any> fromEntries(entries: Map<String, DataStruct>): Data<M, DataStruct>
-            where M : DataMarker<DataStruct> = Data(entries)
+        internal fun <DataStruct : Any, M : DataMarker<DataStruct>> fromEntries(entries: Map<String, DataStruct>): Data<M, DataStruct> = Data(entries)
     }
 }
 
