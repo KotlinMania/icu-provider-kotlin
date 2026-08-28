@@ -5,10 +5,10 @@ Based on AST analysis, here are the concrete next steps.
 ## Summary
 
 - **Files Present:** 18/18 (100.0%)
-- **Function parity:** 111/177 matched (target 198) — 62.7%
+- **Function parity:** 127/177 matched (target 218) — 71.8%
 - **Class/type parity:** 63/84 matched (target 95) — 75.0%
-- **Combined symbol parity:** 174/261 matched (target 293) — 66.7%
-- **Average inline-code cosine:** 0.34 (function body across 15 matched files)
+- **Combined symbol parity:** 190/261 matched (target 313) — 72.8%
+- **Average inline-code cosine:** 0.36 (function body across 15 matched files)
 - **Average documentation cosine:** 0.58 (doc text across 15 matched files)
 - **Cheat-zeroed Files:** 3
 - **Critical Issues:** 16 files with <0.60 function similarity
@@ -27,19 +27,7 @@ No missing high-value files detected.
 
 Every matched file is listed below with function and type symbol parity.
 
-### 1. response
-
-- **Target:** `icuprovider.Response`
-- **Similarity:** 0.13
-- **Dependents:** 0
-- **Priority Score:** 234208.7
-- **Functions:** 14/32 matched (target 23)
-- **Missing functions:** `deref`, `fmt`, `clone`, `eq`, `from_owned`, `from_static_ref`, `map_project`, `map_project_cloned`, `try_map_project`, `try_map_project_cloned`, `cast`, `cast_ref`, `dynamic_cast`, `dynamic_cast_mut`, `from_payload`, `from_other`, `none`, `test_debug`
-- **Types:** 5/10 matched (target 9)
-- **Missing types:** `DataPayloadInner`, `DataPayloadOrInner`, `DataPayloadOrInnerInner`, `CartInner`, `Target`
-- **Tests:** 1/2 matched
-
-### 2. export.payload
+### 1. export.payload
 
 - **Target:** `icuprovider.ExportTest`
 - **Similarity:** 0.13
@@ -51,17 +39,29 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `HashFlavor`, `Output`, `DataStruct`
 - **Tests:** 2/2 matched
 
-### 3. marker
+### 2. marker
 
 - **Target:** `icuprovider.Marker`
-- **Similarity:** 0.46
+- **Similarity:** 0.49
 - **Dependents:** 0
-- **Priority Score:** 133505.4
-- **Functions:** 15/21 matched (target 32)
-- **Missing functions:** `bind`, `eq`, `cmp`, `partial_cmp`, `hash`, `fmt`
+- **Priority Score:** 123505.1
+- **Functions:** 16/21 matched (target 33)
+- **Missing functions:** `eq`, `cmp`, `partial_cmp`, `hash`, `fmt`
 - **Types:** 7/14 matched (target 9)
 - **Missing types:** `DataMarkerExt`, `DataStruct`, `Container`, `Slice`, `GetType`, `OwnedType`, `ULE`
 - **Tests:** 4/4 matched
+
+### 3. response
+
+- **Target:** `icuprovider.Response`
+- **Similarity:** 0.29
+- **Dependents:** 0
+- **Priority Score:** 104207.1
+- **Functions:** 27/32 matched (target 38)
+- **Missing functions:** `deref`, `fmt`, `clone`, `eq`, `test_debug`
+- **Types:** 5/10 matched (target 9)
+- **Missing types:** `DataPayloadInner`, `DataPayloadOrInner`, `DataPayloadOrInnerInner`, `CartInner`, `Target`
+- **Tests:** 1/2 matched
 
 ### 4. data_provider
 
@@ -78,11 +78,11 @@ Every matched file is listed below with function and type symbol parity.
 ### 5. buf.serde
 
 - **Target:** `buf.Serde`
-- **Similarity:** 0.12
+- **Similarity:** 0.27
 - **Dependents:** 0
-- **Priority Score:** 71008.8
-- **Functions:** 2/8 matched (target 2)
-- **Missing functions:** `as_deserializing`, `deserialize_impl`, `into_deserialized`, `load`, `dry_load`, `from`
+- **Priority Score:** 51007.3
+- **Functions:** 4/8 matched (target 5)
+- **Missing functions:** `deserialize_impl`, `load`, `dry_load`, `from`
 - **Types:** 1/2 matched
 - **Missing types:** `AsDeserializingBufferProvider`
 
@@ -104,7 +104,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Similarity:** 0.17
 - **Dependents:** 0
 - **Priority Score:** 40908.3
-- **Functions:** 2/5 matched (target 6)
+- **Functions:** 2/5 matched (target 7)
 - **Missing functions:** `get_index`, `from_trie_and_values_unchecked`, `from_trie_and_refs_unchecked`
 - **Types:** 3/4 matched (target 3)
 - **Missing types:** `IterReturn`
