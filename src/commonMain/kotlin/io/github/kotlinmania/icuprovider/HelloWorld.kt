@@ -6,7 +6,6 @@ import io.github.kotlinmania.iculocalecore.preferences.LocalePreferences
 import io.github.kotlinmania.icuprovider.buf.BufferFormat
 import io.github.kotlinmania.icuprovider.buf.BufferMarker
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 /** A struct containing "Hello World" in the requested language. */
