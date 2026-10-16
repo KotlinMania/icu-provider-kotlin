@@ -1,8 +1,7 @@
 // port-lint: source response.rs
-@file:Suppress("NOTHING_TO_INLINE")
-
 package io.github.kotlinmania.icuprovider
 
+import io.github.kotlinmania.iculocalecore.DataLocale
 import io.github.kotlinmania.icuprovider.buf.BufferMarker
 
 /** A response object containing metadata about the returned data. */
@@ -65,8 +64,7 @@ class DataPayload<M, DataStruct : Any>(
     /** Converts a [DataPayload] to one of the same type with runtime type checking. */
     internal inline fun <reified TargetDataStruct : Any, reified M2 : DynamicDataMarker<TargetDataStruct>> dynamicCast(): Result<DataPayload<M2, TargetDataStruct>> =
         if (value is TargetDataStruct) {
-            @Suppress("UNCHECKED_CAST")
-            Result.success(this as DataPayload<M2, TargetDataStruct>)
+            Result.success(DataPayload(value as TargetDataStruct))
         } else {
             Result.failure(DataError.forType(TargetDataStruct::class.simpleName ?: "Unknown"))
         }

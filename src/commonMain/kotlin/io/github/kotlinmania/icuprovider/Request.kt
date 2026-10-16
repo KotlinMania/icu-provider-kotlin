@@ -1,27 +1,7 @@
 // port-lint: source request.rs
 package io.github.kotlinmania.icuprovider
 
-/** Locale data identifier re-exported by the provider crate. */
-data class DataLocale(
-    val value: String = "und",
-) : Comparable<DataLocale> {
-    fun isUnknown(): Boolean = value == "und" || value.isEmpty()
-
-    fun totalCompare(other: DataLocale): Int = compareTo(other)
-
-    override fun compareTo(other: DataLocale): Int = value.compareTo(other.value)
-
-    override fun toString(): String = value
-}
-
-/** Locale fallback preferences used to construct a [DataLocale]. */
-data class LocalePreferences(
-    val locale: DataLocale = DataLocale(),
-) {
-    fun toDataLocaleRegionPriority(): DataLocale = locale
-
-    fun toDataLocaleLanguagePriority(): DataLocale = locale
-}
+import io.github.kotlinmania.iculocalecore.DataLocale
 
 /** The request type passed into all data provider implementations. */
 data class DataRequest(
@@ -58,7 +38,7 @@ data class DataIdentifierBorrowed(
     /** Marker-specific request attributes. */
     val markerAttributes: DataMarkerAttributes = DataMarkerAttributes.empty(),
     /** The CLDR locale. */
-    val locale: DataLocale = DataLocale(),
+    val locale: DataLocale = DataLocale.DEFAULT,
 ) : Comparable<DataIdentifierBorrowed> {
     /** Converts this [DataIdentifierBorrowed] into a [DataIdentifierCow]. */
     fun intoOwned(): DataIdentifierCow =
@@ -92,7 +72,7 @@ data class DataIdentifierBorrowed(
         if (markerAttributesComparison != 0) {
             return markerAttributesComparison
         }
-        return locale.totalCompare(other.locale)
+        return locale.totalCmp(other.locale)
     }
 
     companion object {
@@ -127,7 +107,7 @@ data class DataIdentifierCow(
     /** Marker-specific request attributes. */
     val markerAttributes: DataMarkerAttributes = DataMarkerAttributes.empty(),
     /** The CLDR locale. */
-    val locale: DataLocale = DataLocale(),
+    val locale: DataLocale = DataLocale.DEFAULT,
 ) : Comparable<DataIdentifierCow> {
     /** Borrows this [DataIdentifierCow] as a [DataIdentifierBorrowed]. */
     fun asBorrowed(): DataIdentifierBorrowed =
@@ -150,7 +130,7 @@ data class DataIdentifierCow(
         if (markerAttributesComparison != 0) {
             return markerAttributesComparison
         }
-        return locale.totalCompare(other.locale)
+        return locale.totalCmp(other.locale)
     }
 
     override fun toString(): String =

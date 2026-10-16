@@ -1,4 +1,3 @@
-// port-lint: source export/mod.rs
 package io.github.kotlinmania.icuprovider.export
 
 import io.github.kotlinmania.icuprovider.DataIdentifierBorrowed
