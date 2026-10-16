@@ -1,6 +1,8 @@
 // port-lint: source hello_world.rs
 package io.github.kotlinmania.icuprovider
 
+import io.github.kotlinmania.iculocalecore.DataLocale
+import io.github.kotlinmania.iculocalecore.preferences.LocalePreferences
 import io.github.kotlinmania.icuprovider.buf.BufferFormat
 import io.github.kotlinmania.icuprovider.buf.BufferMarker
 import kotlinx.serialization.Serializable
@@ -43,7 +45,8 @@ class HelloWorldProvider :
     override fun load(request: DataRequest): Result<DataResponse<HelloWorldV1, HelloWorld>> {
         val entry =
             DATA.find { (localeStr, attrStr, _) ->
-                request.id.locale.value == localeStr && attrStr == request.id.markerAttributes.asString()
+                request.id.locale.strictCmp(localeStr.encodeToByteArray()) == 0 &&
+                    attrStr == request.id.markerAttributes.asString()
             } ?: return Result.failure(DataErrorKind.IdentifierNotFound.withReq(HelloWorldV1.INFO, request))
 
         return Result.success(
@@ -63,7 +66,7 @@ class HelloWorldProvider :
                 .map { (localeStr, attrStr, _) ->
                     DataIdentifierCow.fromBorrowedAndOwned(
                         DataMarkerAttributes.fromStringOrPanic(attrStr),
-                        DataLocale(localeStr),
+                        DataLocale.parse(localeStr).getOrThrow(),
                     )
                 }.toSet(),
         )

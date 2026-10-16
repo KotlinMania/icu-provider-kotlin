@@ -1,7 +1,8 @@
 // port-lint: source marker.rs
-@file:Suppress("NOTHING_TO_INLINE")
-
 package io.github.kotlinmania.icuprovider
+
+import io.github.kotlinmania.iculocalecore.DataLocale
+import io.github.kotlinmania.iculocalecore.preferences.LocalePreferences
 
 /**
  * Trait marker for data structs. All types delivered by the data provider must be associated with

@@ -1,6 +1,9 @@
 // port-lint: source error.rs
 package io.github.kotlinmania.icuprovider
 
+import io.github.kotlinmania.log.Arguments
+import io.github.kotlinmania.log.warn
+
 /**
  * A list specifying general categories of data provider error.
  *
@@ -107,7 +110,12 @@ data class DataError(
     fun withStrContext(context: String): DataError = withStringContext(context)
 
     /** Sets the string context of a [DataError] to the given type name, returning a modified error. */
-    fun withTypeContext(typeName: String): DataError = withStringContext(typeName)
+    fun withTypeContext(typeName: String): DataError {
+        if (!silent) {
+            warn(Arguments("$this: Type context: $typeName", emptyList()))
+        }
+        return withStringContext(typeName)
+    }
 
     /** Logs the data error with the given request, returning an error containing the data marker. */
     fun withReq(
@@ -115,22 +123,35 @@ data class DataError(
         request: DataRequest,
     ): DataError {
         val error = if (request.metadata.silent) copy(silent = true) else this
+        if (!error.silent && error.kind != DataErrorKind.MarkerNotFound) {
+            warn(Arguments("$error (marker: $marker, request: ${request.id})", emptyList()))
+        }
         return error.withMarker(marker)
     }
 
     /** Logs the data error with the given context, then return self. */
     fun withPathContext(path: String): DataError {
-        path.length
+        if (!silent) {
+            warn(Arguments("$this (path: $path)", emptyList()))
+        }
         return this
     }
 
     /** Logs the data error with the given context, then return self. */
-    fun withDisplayContext(context: Any): DataError =
-        if (silent) this else withStringContext(context.toString())
+    fun withDisplayContext(context: Any): DataError {
+        if (!silent) {
+            warn(Arguments("$this: $context", emptyList()))
+        }
+        return this
+    }
 
     /** Logs the data error with the given context, then return self. */
-    fun withDebugContext(context: Any): DataError =
-        if (silent) this else withStringContext(context.toString())
+    fun withDebugContext(context: Any): DataError {
+        if (!silent) {
+            warn(Arguments("$this: $context", emptyList()))
+        }
+        return this
+    }
 
     override val message: String
         get() {

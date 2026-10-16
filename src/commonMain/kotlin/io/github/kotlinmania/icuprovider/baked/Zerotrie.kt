@@ -1,6 +1,4 @@
 // port-lint: source baked/zerotrie.rs
-@file:Suppress("NOTHING_TO_INLINE")
-
 package io.github.kotlinmania.icuprovider.baked
 
 import io.github.kotlinmania.icuprovider.DataIdentifierBorrowed
@@ -45,10 +43,10 @@ class Data<M, DataStruct : Any>(
                 if (parts.size == 2) {
                     DataIdentifierCow.fromOwned(
                         DataMarkerAttributes.fromStringOrPanic(parts[1]),
-                        DataLocale(parts[0]),
+                        DataLocale.parse(parts[0]).getOrElse { DataLocale.DEFAULT },
                     )
                 } else {
-                    DataIdentifierCow.fromLocale(DataLocale(parts[0]))
+                    DataIdentifierCow.fromLocale(DataLocale.parse(parts[0]).getOrElse { DataLocale.DEFAULT })
                 }
             }.iterator()
 
@@ -83,10 +81,10 @@ class DataRef<M, DataStruct : Any>(
                 if (parts.size == 2) {
                     DataIdentifierCow.fromOwned(
                         DataMarkerAttributes.fromStringOrPanic(parts[1]),
-                        DataLocale(parts[0]),
+                        DataLocale.parse(parts[0]).getOrElse { DataLocale.DEFAULT },
                     )
                 } else {
-                    DataIdentifierCow.fromLocale(DataLocale(parts[0]))
+                    DataIdentifierCow.fromLocale(DataLocale.parse(parts[0]).getOrElse { DataLocale.DEFAULT })
                 }
             }.iterator()
 }
@@ -117,10 +115,10 @@ class DataForVarULEs<M, DataStruct : Any, EncodedStruct>(
                 if (parts.size == 2) {
                     DataIdentifierCow.fromOwned(
                         DataMarkerAttributes.fromStringOrPanic(parts[1]),
-                        DataLocale(parts[0]),
+                        DataLocale.parse(parts[0]).getOrElse { DataLocale.DEFAULT },
                     )
                 } else {
-                    DataIdentifierCow.fromLocale(DataLocale(parts[0]))
+                    DataIdentifierCow.fromLocale(DataLocale.parse(parts[0]).getOrElse { DataLocale.DEFAULT })
                 }
             }.iterator()
 }
