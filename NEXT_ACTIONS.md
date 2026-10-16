@@ -4,14 +4,14 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 18/18 (100.0%)
-- **Function parity:** 127/177 matched (target 218) — 71.8%
-- **Class/type parity:** 63/84 matched (target 95) — 75.0%
-- **Combined symbol parity:** 190/261 matched (target 313) — 72.8%
+- **Files Present:** 16/18 (88.9%)
+- **Function parity:** 122/169 matched (target 204) — 72.2%
+- **Class/type parity:** 58/79 matched (target 87) — 73.4%
+- **Combined symbol parity:** 180/248 matched (target 291) — 72.6%
 - **Average inline-code cosine:** 0.36 (function body across 15 matched files)
 - **Average documentation cosine:** 0.58 (doc text across 15 matched files)
-- **Cheat-zeroed Files:** 3
-- **Critical Issues:** 16 files with <0.60 function similarity
+- **Cheat-zeroed Files:** 2
+- **Critical Issues:** 14 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -109,30 +109,19 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 3/4 matched (target 3)
 - **Missing types:** `IterReturn`
 
-### 8. export.mod
-
-- **Target:** `export.Mod [STUB]`
-- **Similarity:** 0.00
-- **Dependents:** 0
-- **Priority Score:** 31210.0
-- **Functions:** 4/7 matched
-- **Missing functions:** `supported_markers`, `new`, `fmt`
-- **Types:** 5/5 matched
-- **Missing types:** _none_
-
-### 9. request
+### 8. request
 
 - **Target:** `icuprovider.Request`
 - **Similarity:** 0.60
 - **Dependents:** 0
 - **Priority Score:** 23404.0
-- **Functions:** 26/26 matched (target 55)
+- **Functions:** 26/26 matched (target 49)
 - **Missing functions:** _none_
-- **Types:** 6/8 matched (target 9)
+- **Types:** 6/8 matched
 - **Missing types:** `Target`, `Owned`
 - **Tests:** 1/1 matched
 
-### 10. varule_traits
+### 9. varule_traits
 
 - **Target:** `icuprovider.VaruleTraits [ZERO]`
 - **Similarity:** 0.00
@@ -143,7 +132,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/3 matched (target 2)
 - **Missing types:** `EncodedStruct`
 
-### 11. serde_borrow_de_utils
+### 10. serde_borrow_de_utils
 
 - **Target:** `icuprovider.SerdeBorrowDeUtils`
 - **Similarity:** 0.38
@@ -155,18 +144,18 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `Demo`
 - **Tests:** 3/3 matched
 
-### 12. error
+### 11. error
 
 - **Target:** `icuprovider.Error`
-- **Similarity:** 0.60
+- **Similarity:** 0.63
 - **Dependents:** 0
-- **Priority Score:** 1604.0
+- **Priority Score:** 1603.7
 - **Functions:** 13/13 matched (target 22)
 - **Missing functions:** _none_
 - **Types:** 3/3 matched (target 11)
 - **Missing types:** _none_
 
-### 13. buf
+### 12. buf
 
 - **Target:** `buf.Buf`
 - **Similarity:** 0.51
@@ -177,7 +166,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 4/4 matched
 - **Missing types:** _none_
 
-### 14. fallback
+### 13. fallback
 
 - **Target:** `icuprovider.Fallback`
 - **Similarity:** 0.27
@@ -188,7 +177,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/2 matched
 - **Missing types:** _none_
 
-### 15. baked
+### 14. baked
 
 - **Target:** `baked.Baked`
 - **Similarity:** 1.00
@@ -199,7 +188,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/2 matched
 - **Missing types:** _none_
 
-### 16. dynutil
+### 15. dynutil
 
 - **Target:** `icuprovider.Dynutil [ZERO]`
 - **Similarity:** 0.00
@@ -210,19 +199,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched (target 2)
 - **Missing types:** _none_
 
-### 17. lib
-
-- **Target:** `icuprovider.Lib [STUB]`
-- **Similarity:** 0.27
-- **Dependents:** 0
-- **Priority Score:** 107.3
-- **Functions:** 1/1 matched
-- **Missing functions:** _none_
-- **Types:** 0/0 matched (target 2)
-- **Missing types:** _none_
-- **Tests:** 1/1 matched
-
-### 18. constructors
+### 16. constructors
 
 - **Target:** `icuprovider.Constructors [STUB]`
 - **Similarity:** 1.00
@@ -241,4 +218,18 @@ For each file to be considered "complete":
 - All tests ported
 - Documentation ported
 - port-lint header present
+
+## Reexport / Wiring Modules
+
+These files match `reexport_modules` patterns in `.ast_distance_config.json`. They are filtered out of
+normal priority and missing-file ladders because they are wiring
+modules, not direct logic ports. Consult them for call-site routing;
+do not treat them as the next implementation target by default.
+
+### Missing
+
+| Source | Expected target | Deps | Source path | Expected path |
+|--------|-----------------|------|-------------|---------------|
+| `export.mod` | `export.Mod` | 0 | `export/mod.rs` | `export/Mod.kt` |
+| `lib` | `Lib` | 0 | `lib.rs` | `Lib.kt` |
 

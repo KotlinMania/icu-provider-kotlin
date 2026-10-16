@@ -3,8 +3,6 @@ package io.github.kotlinmania.icuprovider
 
 import io.github.kotlinmania.iculocalecore.DataLocale
 
-typealias DataLocale = io.github.kotlinmania.iculocalecore.DataLocale
-
 /** The request type passed into all data provider implementations. */
 data class DataRequest(
     /** The data identifier for which to load data. */

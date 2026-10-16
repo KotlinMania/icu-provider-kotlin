@@ -1,6 +1,7 @@
 // port-lint: source response.rs
 package io.github.kotlinmania.icuprovider
 
+import io.github.kotlinmania.iculocalecore.DataLocale
 import io.github.kotlinmania.icuprovider.buf.BufferMarker
 
 /** A response object containing metadata about the returned data. */
