@@ -12,7 +12,6 @@ kotlinxBenchmark = "0.5.0"
 icuLocaleCore = "0.1.1"
 log = "0.1.4"
 serde = "0.1.10"
-serdeJson = "0.1.1"
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -33,7 +32,6 @@ kotlinx-benchmark-runtime = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-
 icu-locale-core = { module = "io.github.kotlinmania:icu-locale-core-kotlin", version.ref = "icuLocaleCore" }
 log = { module = "io.github.kotlinmania:log-kotlin", version.ref = "log" }
 serde = { module = "io.github.kotlinmania:serde-kotlin", version.ref = "serde" }
-serde-json = { module = "io.github.kotlinmania:serde-json-kotlin", version.ref = "serdeJson" }
 
 [bundles]
 icu-provider-commonMain = [
@@ -45,5 +43,4 @@ icu-provider-commonMain = [
   "icu-locale-core",
   "log",
   "serde",
-  "serde-json",
 ]
