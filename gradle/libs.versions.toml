@@ -9,7 +9,7 @@ detekt = "2.0.0-alpha.6"
 ktlint = "14.2.0"
 ktlintEngine = "1.8.0"
 kotlinxBenchmark = "0.5.0"
-icuLocaleCore = "0.1.1"
+icuLocaleCore = "0.1.2"
 log = "0.1.4"
 serde = "0.1.10"
 
