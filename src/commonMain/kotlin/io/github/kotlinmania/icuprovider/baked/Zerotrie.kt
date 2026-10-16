@@ -1,9 +1,9 @@
 // port-lint: source baked/zerotrie.rs
 package io.github.kotlinmania.icuprovider.baked
 
+import io.github.kotlinmania.iculocalecore.DataLocale
 import io.github.kotlinmania.icuprovider.DataIdentifierBorrowed
 import io.github.kotlinmania.icuprovider.DataIdentifierCow
-import io.github.kotlinmania.iculocalecore.DataLocale
 import io.github.kotlinmania.icuprovider.DataMarker
 import io.github.kotlinmania.icuprovider.DataMarkerAttributes
 import io.github.kotlinmania.icuprovider.DataPayload
